@@ -9,6 +9,7 @@ use Drupal\Core\Session\AccountInterface;
 use Drupal\Core\Access\AccessResult;
 use Drupal\Core\Entity\EntityInterface;
 use Drupal\flag\FlagInterface;
+use Drupal\Core\Routing\RouteMatchInterface;
 
 /**
  * Implements hook_theme().
@@ -67,5 +68,66 @@ function flag_fse_entity_reference_selection_alter(&$definitions) {
   // Artificially set the base plugin label to the label.
   if (isset($definitions['flag_fse:user'])) {
     $definitions['flag_fse:user']['base_plugin_label'] = $definitions['flag_fse:user']['label'];
+  }
+}
+
+/**
+ * Implements hook_help().
+ */
+function flag_fse_help($route_name, RouteMatchInterface $route_match) {
+  switch ($route_name) {
+    case 'help.page.flag_fse':
+      $output = '<h2>' . t('About') . '</h2>';
+      $output .= '<p>' . t('The Flag for Someone Else (Flag FSE) module extends the Flag module by allowing authorized users to flag content on behalf of other users. This is particularly useful for administrators and moderators who need to manage flaggings for community members.') . '</p>';
+
+      $output .= '<h2>' . t('Uses') . '</h2>';
+      $output .= '<dl>';
+      $output .= '<dt>' . t('Flagging content for others') . '</dt>';
+      $output .= '<dd>' . t('Users with appropriate permissions can flag content on behalf of any user in the system. This is useful when managing content reports, event registrations, or support tickets where users may have contacted you through offline channels.') . '</dd>';
+      $output .= '<dt>' . t('Creating users while flagging') . '</dt>';
+      $output .= '<dd>' . t('Administrators can create new user accounts directly from the flagging form, optionally generating passwords and sending notification emails. This streamlines the process of onboarding users who need immediate flagging.') . '</dd>';
+      $output .= '<dt>' . t('Configuring flag link types') . '</dt>';
+      $output .= '<dd>' . t('When editing a flag at <em>Structure > Flags</em>, select "For someone else" as the link type. You can configure the link text, confirmation message, and form behavior (new page, dialog, or modal). A fallback link type must be selected for users without FSE permissions.') . '</dd>';
+      $output .= '<dt>' . t('Managing permissions') . '</dt>';
+      $output .= '<dd>' . t('The module automatically generates a permission for each flag: <em>flag fse [flag_id]</em>. Assign these permissions to appropriate roles (e.g., moderators, administrators) at <em>People > Permissions</em>. Only users with these permissions will see the "Flag for someone else" link.') . '</dd>';
+      $output .= '<dt>' . t('Searching for users') . '</dt>';
+      $output .= '<dd>' . t('The user selection field supports autocomplete search by both username and email address. This makes it easy to find users even if you only know their email. The search results display both username and email in the format: <em>Username &lt;email@example.com&gt;</em>.') . '</dd>';
+      $output .= '</dl>';
+
+      $output .= '<h2>' . t('Configuration') . '</h2>';
+      $output .= '<p>' . t('To configure a flag to use Flag FSE:') . '</p>';
+      $output .= '<ol>';
+      $output .= '<li>' . t('Navigate to <em>Structure > Flags</em>') . '</li>';
+      $output .= '<li>' . t('Create a new flag or edit an existing one') . '</li>';
+      $output .= '<li>' . t('Under <em>Link type</em>, select <strong>For someone else</strong>') . '</li>';
+      $output .= '<li>' . t('Configure the FSE-specific options:') . '</li>';
+      $output .= '<ul>';
+      $output .= '<li>' . t('<strong>Fallback plugin</strong>: Choose which link type to show to users without FSE permission') . '</li>';
+      $output .= '<li>' . t('<strong>Flag fse link text</strong>: The text displayed on the FSE link') . '</li>';
+      $output .= '<li>' . t('<strong>Flag confirmation message</strong>: Message shown in the confirmation form') . '</li>';
+      $output .= '<li>' . t('<strong>Create flagging button text</strong>: Submit button label') . '</li>';
+      $output .= '<li>' . t('<strong>Form behavior</strong>: Choose between new page, dialog, or modal') . '</li>';
+      $output .= '</ul>';
+      $output .= '<li>' . t('Save the flag configuration') . '</li>';
+      $output .= '<li>' . t('Go to <em>People > Permissions</em> and assign the <em>flag fse [flag_id]</em> permission to appropriate roles') . '</li>';
+      $output .= '</ol>';
+
+      $output .= '<h2>' . t('Security considerations') . '</h2>';
+      $output .= '<p>' . t('Flag FSE implements several security measures:') . '</p>';
+      $output .= '<ul>';
+      $output .= '<li>' . t('Granular permissions ensure only trusted users can flag on behalf of others') . '</li>';
+      $output .= '<li>' . t('Form validation prevents duplicate flaggings for the same user') . '</li>';
+      $output .= '<li>' . t('Only administrators can create new users through the FSE form') . '</li>';
+      $output .= '<li>' . t('All flagging actions are attributed to the actual user performing them, maintaining accountability') . '</li>';
+      $output .= '</ul>';
+
+      $output .= '<h2>' . t('For more information') . '</h2>';
+      $output .= '<ul>';
+      $output .= '<li>' . t('Visit the <a href=":project_page">Flag FSE project page</a>', [':project_page' => 'https://www.drupal.org/project/flag_fse']) . '</li>';
+      $output .= '<li>' . t('Report issues in the <a href=":issue_queue">issue queue</a>', [':issue_queue' => 'https://www.drupal.org/project/issues/flag_fse']) . '</li>';
+      $output .= '<li>' . t('View the source code on <a href=":github">GitHub</a>', [':github' => 'https://github.com/johaziel/flag_fse']) . '</li>';
+      $output .= '</ul>';
+
+      return $output;
   }
 }

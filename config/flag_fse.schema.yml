@@ -1,4 +1,3 @@
-
 flag.link_type.plugin.flag_fse:
   type: mapping
   label: 'Flag for someone else'
@@ -18,4 +17,3 @@ flag.link_type.plugin.flag_fse:
     flag_fse_form_behavior:
       type: string
       label: 'Where should the form open (new page, modal, etc)'
-
