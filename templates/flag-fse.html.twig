@@ -1,0 +1,29 @@
+{#
+/**
+ * @file
+ * Overriding base flag link template
+ *
+ * Available variables:
+ * - flag_fse_link: The flag for someone else link.
+ * - fallback_link: The flag link.
+ * - action: 'flag' or 'unflag'
+ * - flag: The flag object.
+ * - flaggable: The flaggable entity.
+ */
+#}
+
+{# Attach the flag CSS library.#}
+{{ attach_library('flag/flag.link') }}
+
+{# Set the remaining Flag CSS classes. #}
+{%
+  set classes = [
+    'js-flag-' ~ flag.id()|clean_class ~ '-' ~ flaggable.id(),
+  ]
+%}
+<div class="{{classes|join(' ')}}">
+  {% if ( flag_fse_link) %}
+    <div class="flag-fse-link">{{ flag_fse_link }}</div>
+  {% endif %}
+  <div class="flag-fse-fallback-link">{{ fallback_link }}</div>
+</div>

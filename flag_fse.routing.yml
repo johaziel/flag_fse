@@ -1,0 +1,7 @@
+flag_fse.confirm_flag:
+  path: '/flag_fse/confirm/flag/{flag}/{entity_id}/{view_mode}'
+  defaults:
+    _form: '\Drupal\flag_fse\Form\FlagFseConfirmForm'
+    _title: 'Flag form someone else'
+  requirements:
+    _flag_fse_access: 'entity:flag{flag}'

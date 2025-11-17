@@ -1,0 +1,2 @@
+permission_callbacks:
+  - Drupal\flag_fse\FlagFsePermissions::permissions

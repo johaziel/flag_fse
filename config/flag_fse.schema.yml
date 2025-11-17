@@ -1,0 +1,21 @@
+
+flag.link_type.plugin.flag_fse:
+  type: mapping
+  label: 'Flag for someone else'
+  mapping:
+    flag_fse_plugin_fallback:
+      type: string
+      label: 'callback plugin for unauthorized user'   
+    flag_fse_link_title:
+      type: label
+      label: 'Flag link text'
+    flag_fse_confirmation:
+      type: label
+      label: 'Flag confirmation'
+    flag_fse_create_button:
+      type: label
+      label: 'Create flagging button text'
+    flag_fse_form_behavior:
+      type: string
+      label: 'Where should the form open (new page, modal, etc)'
+

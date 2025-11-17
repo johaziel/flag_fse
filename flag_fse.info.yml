@@ -1,0 +1,7 @@
+name: Flag for someone else
+description: Provides link to flag someone else.
+core_version_requirement: ^10.2 || ^11
+type: module
+dependencies:
+  - flag:flag
+package: Flags

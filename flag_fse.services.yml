@@ -1,0 +1,6 @@
+services:
+  access_check.flag_fse.action:
+    class: Drupal\flag_fse\Access\FlagFseAccessCheck
+    arguments: ['@flag']
+    tags:
+      - { name: access_check, applies_to: _flag_fse_access }

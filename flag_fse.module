@@ -1,0 +1,71 @@
+<?php
+
+/**
+ * @file
+ * The Flag for someone else module.
+ */
+
+use Drupal\Core\Session\AccountInterface;
+use Drupal\Core\Access\AccessResult;
+use Drupal\Core\Entity\EntityInterface;
+use Drupal\flag\FlagInterface;
+
+/**
+ * Implements hook_theme().
+ */
+function flag_fse_theme() {
+  return [
+    'flag_fse' => [
+      'variables' => [
+        'flag_fse_link' => [],
+        'fallback_link' => [],
+        'action' => 'flag',
+        'flag' => NULL,
+        'flaggable' => NULL,
+        'view_mode' => NULL,
+        'attributes' => [],
+      ],
+    ],
+    'flag_fse_link' => [
+      'variables' => [
+        'attributes' => [],
+        'title' => NULL,
+        'action' => 'flag',
+        'flag' => NULL,
+        'flaggable' => NULL,
+        'view_mode' => NULL,
+      ],
+    ],
+    'flag_fse_fallback_link' => [
+      'variables' => [
+        'attributes' => [],
+        'title' => NULL,
+        'view_mode' => NULL,
+        'action' => 'flag',
+        'flag' => NULL,
+        'flaggable' => NULL,
+        'view_mode' => NULL,
+      ],
+    ],
+  ];
+}
+
+/**
+ * Implements hook_entity_reference_selection_alter().
+ */
+function flag_fse_flag_action_access($action, FlagInterface $flag, AccountInterface $account, ?EntityInterface $flaggable = NULL) {
+  return AccessResult::allowedIfHasPermission($account, 'flag fse ' . $flag->id());
+}
+
+/**
+ * Implements hook_entity_reference_selection_alter().
+ */
+function flag_fse_entity_reference_selection_alter(&$definitions) {
+  // See also commmerce_order_entity_reference_selection_alter()
+  // Drupal core assumes our custom entity reference selection plugin for users
+  // is defined by a deriver and expect a "base_plugin_label" key to be present.
+  // Artificially set the base plugin label to the label.
+  if (isset($definitions['flag_fse:user'])) {
+    $definitions['flag_fse:user']['base_plugin_label'] = $definitions['flag_fse:user']['label'];
+  }
+}

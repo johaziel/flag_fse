@@ -1,0 +1,10 @@
+langcode: en
+status: true
+dependencies:
+  module:
+    - flag_fse
+id: flag_fse
+label: 'Flag for someone else'
+type: flagging
+plugin: flag_fse
+configuration: {  }
