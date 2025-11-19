@@ -1,5 +1,9 @@
 <?php
 
+namespace Drupal\Tests\flag_fse\Functional;
+
+use Drupal\Tests\BrowserTestBase;
+
 /**
  * Tests the UserSearch entity reference selection plugin.
  *
@@ -11,6 +15,15 @@ class FlagFseUserSearchPluginTest extends BrowserTestBase {
    * {@inheritdoc}
    */
   protected $defaultTheme = 'stark';
+
+  /**
+   * {@inheritdoc}
+   *
+   * Flag module doesn't properly declare schema for dynamic linkTypeConfig.
+   *
+   * @var bool
+   */
+  protected $strictConfigSchema = FALSE;
 
   /**
    * {@inheritdoc}
@@ -51,14 +64,18 @@ class FlagFseUserSearchPluginTest extends BrowserTestBase {
     $results = $handler->getReferenceableEntities('test1@', 'CONTAINS', 10);
 
     // Should find user1.
-    $this->assertNotEmpty($results);
+    $this->assertNotEmpty($results, 'Search results should not be empty');
 
-    $user_ids = [];
-    foreach ($results as $users) {
-      $user_ids = array_merge($user_ids, array_keys($users));
+    $found_user1 = FALSE;
+    foreach ($results as $bundle => $users) {
+      // Keys in $users are string representations of user IDs
+      if (array_key_exists((string) $user1->id(), $users)) {
+        $found_user1 = TRUE;
+        break;
+      }
     }
 
-    $this->assertContains($user1->id(), $user_ids, 'User 1 should be found by email search.');
+    $this->assertTrue($found_user1, 'User 1 should be found by email search.');
   }
 
 }

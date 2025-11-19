@@ -4,7 +4,7 @@ flag.link_type.plugin.flag_fse:
   mapping:
     flag_fse_plugin_fallback:
       type: string
-      label: 'callback plugin for unauthorized user'   
+      label: 'Callback plugin for unauthorized user'   
     flag_fse_link_title:
       type: label
       label: 'Flag link text'
