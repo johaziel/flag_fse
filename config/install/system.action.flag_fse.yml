@@ -7,4 +7,3 @@ id: flag_fse
 label: 'Flag for someone else'
 type: flagging
 plugin: flag_fse
-configuration: {  }
